@@ -1,10 +1,4 @@
 <div class="content-wrapper">
-  <section class="content-header">
-    <h1>
-      Slides
-      <small>Control de Slides</small>
-    </h1>
-  </section>
 
   <section class="content">
     <div class="row">
@@ -29,22 +23,25 @@
                           <?php 
 
                             $slides = ControladorSlides::ctrMostrarSlides();
-                            $olo = 'kk';
 
                             foreach ($slides as $key => $value) {
-                              echo '<tr>
-                                      <td><button class="btn btn-success btn-xs">orale</button></td>
+                              if($value['activo'] == 1){
+                                $activo = '<button class="btn btn-success">ACTIVADO</button>';
+                              }else{
+                                $activo = '<button class="btn btn-danger">DESACTIVADO</button>';
+                              }
+                              echo '<tr class="principal-'.$value['idSlide'].'">
+                                      <td>'.$activo.'</td>
                                       <td><img src="'.$value['url'].'" class="thumbnail" width="150px"></td>
                                       <td>'.$value['titulo'].'</td>
                                       <td>
                                         <div class="btn-group">
-                                          <button class="btn btn-warning"><i class="fa fa-pencil"></i></button>
-                                          <button class="btn btn-danger"><i class="fa fa-times"></i></button>
+                                          <button class="btn btn-warning btnEditarSlide" idSlide="'.$value['idSlide'].'" titulo="'.$value['titulo'].'" link="'.$value['link'].'" url="'.$value['url'].'" data-toggle="modal" data-target="#modalEditarSlidePrincipal"><i class="fa fa-pencil"></i></button>
+                                          <button class="btn btn-danger btnBorrarSlide" idSlide="'.$value['idSlide'].'" titulo="'.$value['titulo'].'"><i class="fa fa-times"></i></button>
                                         </div>
                                       </td>
                                     </tr>';
                             }
-
                            ?>
                         </tbody>
                       </table>
@@ -54,11 +51,11 @@
                 <div class="col-md-5">
                   <div class="box-body">
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                      <ol class="carousel-indicators">
+<!--                       <ol class="carousel-indicators">
                         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
                         <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
                         <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
-                      </ol>
+                      </ol> -->
                       <div class="carousel-inner">
                         <?php 
 
@@ -70,7 +67,7 @@
                             }else{
                               $active = '';
                             }
-                            echo '<div class="item '.$active.'">
+                            echo '<div class="principal-'.$value['idSlide'].' item '.$active.'">
                                     <img src="'.$value['url'].'">
                                     <div class="carousel-caption">
                                       '.$value['titulo'].'
@@ -104,6 +101,7 @@
   </section>
 </div>
 
+<!-- MODAL AGREGAR SLIDE -->
 <div class="modal fade" id="modalAgregarSlidePrincipal" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -119,9 +117,10 @@
                 <div class="form-group text-center">
                   <div class="subirFoto">
                     <input type="file" class="nuevaFoto" id="nuevoUrlSlide" name="nuevoUrlSlide">
+                    <img src="vistas/img/slides/0.png" class="thumbnail previsualizar" width="100px">
+                    
                   </div>
                   <p class="help-block">Peso máximo de 2MB</p>
-                  <img src="vistas/img/slides/slide0.png" class="thumbnail previsualizar" width="100px">
                 </div>
               </div>
             </div>
@@ -154,6 +153,64 @@
         <?php 
           $subirSlide = new ControladorSlides();
           $subirSlide -> ctrSubirSlide();
+         ?>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR SLIDE -->
+<div class="modal fade" id="modalEditarSlidePrincipal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form role="form" method="post" enctype="multipart/form-data">
+        <div class="modal-header bg-primary text-center">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Editar Slide Principal</h4>
+        </div>
+        <div class="modal-body">
+          <div class="box-body">
+            <div class="row"> 
+              <div class="col-md-10 col-md-offset-1">
+                <div class="form-group text-center">
+                  <div class="subirFoto">
+                    <input type="file" class="nuevaFoto" id="editarUrlSlide" name="editarUrlSlide">
+                    <input type="hidden" id="editarUrlSlideActual" name="editarUrlSlideActual">
+                    <img src="vistas/img/slides/0.png" class="thumbnail previsualizar" width="100px" id="mostrarUrlSlide">                    
+                  </div>
+                  <p class="help-block">Peso máximo de 2MB</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <div class="form-group text-center">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-dot-circle-o"></i></span>
+                    <input type="text" id="editarIdSlide" name="editarIdSlide" style="display:none;">
+                    <input type="text" class="form-control" id="editarTituloSlide" name="editarTituloSlide" placeholder="Título que llevará el Slide...">
+                  </div>
+                </div>
+              </div>                
+            </div>
+            <div class="row">            
+              <div class="col-md-10 col-md-offset-1">
+                <div class="form-group text-center">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-link"></i></span>
+                    <input type="text" class="form-control" id="editarLinkSlide" name="editarLinkSlide" placeholder="Enlace al darle click...">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-block">Guardar Slide</button>
+        </div>
+        <?php 
+          $editarSlide = new ControladorSlides();
+          $editarSlide -> ctrEditarSlide();
          ?>
       </form>
     </div>

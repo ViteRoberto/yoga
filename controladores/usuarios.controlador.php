@@ -11,6 +11,12 @@
 					$respuesta = ModeloUsuarios::mdlMostrarUsuario($tabla,$item,$valor);
 					if($respuesta['usuario'] == $_POST['usuario'] && $respuesta['password'] == $_POST['password']){
 						$_SESSION['iniciarSesion'] = 'ok';
+						$_SESSION['idUsuario'] = $respuesta['idUsuario'];
+						$_SESSION['nombre'] = $respuesta['nombre'];
+						$_SESSION['usuario'] = $respuesta['usuario'];
+						$_SESSION['foto'] = $respuesta['foto'];
+						$_SESSION['perfil'] = $respuesta['perfil'];
+						
 						echo '<script>window.location = "slides";</script>';
 					}else{
 						echo '<div class="alert alert-danger">Error al ingresar. Vuelve a intentarlo.</div>';

@@ -29,3 +29,70 @@ $('.nuevaFoto').change(function(){
 		});
 	}
 });
+
+/*====================================
+=            EDITAR SLIDE            =
+====================================*/
+
+$(document).on('click','.btnEditarSlide', function(){
+	var idSlide = $(this).attr('idSlide');
+	var titulo = $(this).attr('titulo');
+	var link = $(this).attr('link');
+	var url = $(this).attr('url');
+
+	//AGREGAMOS LOS DATOS DEL SLIDE A MODIFICAR, EN LOS INPUTS DEL MODAL.
+
+	$("#editarIdSlide").val(idSlide);
+	$("#editarUrlSlideActual").val(url);
+	$("#editarTituloSlide").val(titulo);
+	$("#editarLinkSlide").val(link);
+	$("#mostrarUrlSlide").attr('src',url);
+
+})
+
+/*=====  End of EDITAR SLIDE  ======*/
+
+/*====================================
+=            BORRAR SLIDE            =
+====================================*/
+
+$(document).on('click','.btnBorrarSlide', function(){
+	var idSlide = $(this).attr('idSlide');
+
+	var datos = new FormData();
+	datos.append('borrarIdSlide',idSlide);
+
+	swal.fire({
+		title: '¿Seguro que desea borrar el slide?',
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d5',
+		cancelButtonColor: '#d33',
+		cancelButtonText: 'Cancelar',
+		confirmButtonText: 'Si, Borrra Slide'
+	}).then((result) => {
+		if(result.value){
+			$.ajax({
+				url:'ajax/slides.ajax.php',
+				method:"POST",
+				data: datos,
+				cache: false,
+				contentType:false,
+				processData:false,
+				dataType:'json',
+				success: function(respuesta){
+					swal.fire({
+						type: 'success',
+						title: 'Slide Eliminado',
+						showConfirmButton: true,
+						confirmButtonText: 'Ok'
+					}).then((result)=>{
+						if(result.value){
+							$(".principal-"+idSlide).remove();
+						}
+					})
+				}
+			});
+		}
+	})
+})

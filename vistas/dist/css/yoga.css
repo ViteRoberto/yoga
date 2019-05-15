@@ -1,0 +1,20 @@
+div.subirFoto{
+	position: relative;
+	width: 110px;
+	height: 100px;
+	padding: 5px;
+	margin: 0px auto;
+	cursor: pointer;
+}
+
+input.nuevaFoto{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 110px;
+	height: 100px;
+	opacity: 0;
+	cursor: pointer;
+}
