@@ -30,6 +30,17 @@ $('.nuevaFoto').change(function(){
 	}
 });
 
+/*========================================================
+=            OBTENER ÚLTIMO ID SLIDE EN MODAL            =
+========================================================*/
+
+$(document).on('click','.btnAgregarSlide', function(){
+	$("#ultimoIdPrincipalModal").val($("#ultimoIdPrincipal").val());
+})
+
+/*=====  End of OBTENER ÚLTIMO ID SLIDE EN MODAL  ======*/
+
+
 /*====================================
 =            EDITAR SLIDE            =
 ====================================*/
@@ -58,9 +69,11 @@ $(document).on('click','.btnEditarSlide', function(){
 
 $(document).on('click','.btnBorrarSlide', function(){
 	var idSlide = $(this).attr('idSlide');
+	var url = $(this).attr('url');
 
 	var datos = new FormData();
 	datos.append('borrarIdSlide',idSlide);
+	datos.append('borrarUrl',url);
 
 	swal.fire({
 		title: '¿Seguro que desea borrar el slide?',
@@ -81,6 +94,29 @@ $(document).on('click','.btnBorrarSlide', function(){
 				processData:false,
 				dataType:'json',
 				success: function(respuesta){
+					var datos1 = new FormData();
+					datos1.append('leer','leer');
+					$.ajax({
+						url: 'ajax/slides.ajax.php',
+						method: 'POST',
+						data: datos1,
+						cache: false,
+						contentType: false,
+						processData: false,
+						dataType: 'json',
+						success: function(respuesta1){
+							var active = '';
+							for (var i = respuesta1.length - 1; i >= 0; i--) {
+								if(i == respuesta1.length - 1){
+									active = 'active';
+								}else{
+									active = '';
+								}
+							 $("#slidesPrincipal").html('<div class="principal-'+respuesta1[i]['idSlide']+' item '+active+'"><img src="'+respuesta1[i]['url']+'"><div class="carousel-caption">'+respuesta1[i]['titulo']+'</div></div>')
+							}
+						}
+					});
+					
 					swal.fire({
 						type: 'success',
 						title: 'Slide Eliminado',

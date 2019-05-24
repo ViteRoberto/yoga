@@ -20,7 +20,11 @@
 						$nuevoAncho = 1840;
 						$nuevoAlto = 1228;
 
-						$directorio = 'vistas/img/slides/'.$_POST['nuevoTituloSlide'];
+						//OBTENIENDO ÚLTIMO ID DE SLIDE Y SUMARLE 1
+						$nuevoIdFoto = $_POST['ultimoIdPrincipalModal'];
+						$nuevoIdFoto = $nuevoIdFoto + 1;
+
+						$directorio = 'vistas/img/slides/'.$_POST['nuevoTituloSlide'].'-'.$nuevoIdFoto;
 
 						//DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
 
@@ -105,7 +109,7 @@
 						$nuevoAncho = 1840;
 						$nuevoAlto = 1228;
 
-						$directorio = 'vistas/img/slides/'.$_POST['editarTituloSlide'];
+						$directorio = 'vistas/img/slides/'.$_POST['editarTituloSlide'].'-'.$_POST['editarIdSlide'];
 
 						//VERIFICAR SI HAY UN NUEVO SLIDE PARA MODIFICAR LA ACTUL
 						if(!empty($_POST['editarUrlSlideActual'])){
@@ -145,7 +149,7 @@
 						echo '<script>
 							  swal.fire({
 							  	type: "success",
-							  	title: "¡Slide Editado'.$ruta.'!",
+							  	title: "¡Slide Editado Correctamente!",
 							  	showConfirmButton: true,
 							  	confirmButtonText: "Cerrar"
 							  }).then((result)=>{
@@ -182,7 +186,11 @@
 			}			
 		}
 
-		static public function ctrBorrarSlide($idSlide){
+		static public function ctrBorrarSlide($idSlide, $url){
+			if(isset($url)){
+				unlink('../'.$url);
+			}
+
 			$tabla = 'slide';
 			$respuesta = ModeloSlides::mdlBorrarSlide($tabla,$idSlide);
 

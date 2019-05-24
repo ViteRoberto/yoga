@@ -18,8 +18,8 @@
 				<li class ="dropdown user user-menu">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<?php 
-							if ($_SESSION['foto'] != ""){
-								echo '<img src="'.$_SESSION['foto'].'" class="user-image">';
+							if ($_SESSION['url'] != ""){
+								echo '<img src="'.$_SESSION['url'].'" class="user-image">';
 							}else{
 								echo '<img src="vistas/img/usuarios/default.png" class="user-image">';
 							}

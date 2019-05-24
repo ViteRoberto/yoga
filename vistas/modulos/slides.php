@@ -15,7 +15,7 @@
                 <div class="col-md-7">
                   <div class="box box-primary box-solid">
                     <div class="box-header with-border">
-                      <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalAgregarSlidePrincipal">Agregar Slide Principal</button>
+                      <button class="btn btn-primary btn-block btnAgregarSlide" data-toggle="modal" data-target="#modalAgregarSlidePrincipal">Agregar Slide Principal</button>
                     </div>
                     <div class="box-body">
                       <table class="table table-bordered table-striped dt-responsive">
@@ -37,11 +37,12 @@
                                       <td>
                                         <div class="btn-group">
                                           <button class="btn btn-warning btnEditarSlide" idSlide="'.$value['idSlide'].'" titulo="'.$value['titulo'].'" link="'.$value['link'].'" url="'.$value['url'].'" data-toggle="modal" data-target="#modalEditarSlidePrincipal"><i class="fa fa-pencil"></i></button>
-                                          <button class="btn btn-danger btnBorrarSlide" idSlide="'.$value['idSlide'].'" titulo="'.$value['titulo'].'"><i class="fa fa-times"></i></button>
+                                          <button class="btn btn-danger btnBorrarSlide" idSlide="'.$value['idSlide'].'" url="'.$value['url'].'"><i class="fa fa-times"></i></button>
                                         </div>
                                       </td>
                                     </tr>';
                             }
+                            echo '<input type="text" id="ultimoIdPrincipal" name="ultimoIdPrincipal" style="display:none;" value="'.$value['idSlide'].'">';
                            ?>
                         </tbody>
                       </table>
@@ -56,7 +57,7 @@
                         <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
                         <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
                       </ol> -->
-                      <div class="carousel-inner">
+                      <div class="carousel-inner" id="slidesPrincipal">
                         <?php 
 
                           $inicial = 0;
@@ -141,6 +142,7 @@
                     <span class="input-group-addon"><i class="fa fa-link"></i></span>
                     <input type="text" class="form-control" id="nuevoLinkSlide" name="nuevoLinkSlide" placeholder="Enlace al darle click...">
                     <input type="text" id="nuevoTipoSlide" name="nuevoTipoSlide" style="display:none;" value="Principal">
+                    <input type="text" id="ultimoIdPrincipalModal" name="ultimoIdPrincipalModal" style="display: none;">
                   </div>
                 </div>
               </div>

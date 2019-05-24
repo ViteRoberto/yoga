@@ -14,7 +14,7 @@
 						$_SESSION['idUsuario'] = $respuesta['idUsuario'];
 						$_SESSION['nombre'] = $respuesta['nombre'];
 						$_SESSION['usuario'] = $respuesta['usuario'];
-						$_SESSION['foto'] = $respuesta['foto'];
+						$_SESSION['url'] = $respuesta['url'];
 						$_SESSION['perfil'] = $respuesta['perfil'];
 						
 						echo '<script>window.location = "slides";</script>';
